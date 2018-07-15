@@ -1,11 +1,13 @@
+#!/usr/bin/env python
 #coding:utf-8
 
-#this is outlook email test recv and send by sunjl@bjhuahuan.com
+#this is outlook email test recv and send by xx@xxxx.com
 #reference http://www.snb-vba.eu/VBA_Outlook_external_en.html#L_15.2.1
 
+
 import time
-import logging
 import threading
+import logging
 #import win32com.client as win32
 from email.mime.text import MIMEText
 import smtplib
@@ -53,14 +55,15 @@ def receive_emial_by_outlook():
 def send_email_by_smtp():
 	ser_ip = "smtp.163.com"
 	ser_port = 25
-	from_addr = "sjl172270102@163.com"
-	passwd = "sunjinlei1992728"
-	to_addr = "172270102@qq.com"
+        from_addr = input("mail_addr:")
+        passwd = input("passwd:")
+        to_addr = input("to_addr:")
 	
 	smtpobj = smtplib.SMTP(ser_ip, ser_port)
-	smtpobj.set_debuglevel(1)
-	smtpobj.login(from_addr, passwd)
-	smtpobj.sendmail(from_addr, to_addr, msg.as_string())
+	#smtpobj.set_debuglevel(1)
+	login_log = smtpobj.login(from_addr, passwd)
+        print login_log
+	#smtpobj.sendmail(from_addr, to_addr, msg.as_string())
 	
 	smtpobj.quit()
 	return
