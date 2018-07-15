@@ -6,8 +6,13 @@
 import time
 import logging
 import threading
-import win32com.client as win32
+#import win32com.client as win32
+from email.mime.text import MIMEText
+import smtplib
 
+msg = MIMEText("hello, python!", "plain", "utf-8")
+
+'''
 #send email by outlook
 def send_email_by_outlook():
     outlook = win32.Dispatch('outlook.application')
@@ -42,6 +47,26 @@ def receive_emial_by_outlook():
 
         time.sleep(3)
     return
+'''
+
+#send mail by smtp
+def send_email_by_smtp():
+	ser_ip = "smtp.163.com"
+	ser_port = 25
+	from_addr = "sjl172270102@163.com"
+	passwd = "sunjinlei1992728"
+	to_addr = "172270102@qq.com"
+	
+	smtpobj = smtplib.SMTP(ser_ip, ser_port)
+	smtpobj.set_debuglevel(1)
+	smtpobj.login(from_addr, passwd)
+	smtpobj.sendmail(from_addr, to_addr, msg.as_string())
+	
+	smtpobj.quit()
+	return
+
+
+
 
 def log_config():
     log_format = "%(asctime)s - %(levelname)s - %(funcName)s:%(lineno)s: %(message)s"
@@ -58,13 +83,16 @@ def log_config():
 def main():
     #加载log配置
     log_config()
-
+    
+    send_email_by_smtp()
+    
     #发送outlook邮件
-    send_email_by_outlook()
+    #send_email_by_outlook()
 
     #启动收邮件线程
-    recv_thread = threading.Thread(target = receive_emial_by_outlook())
-    recv_thread.start()
+    #recv_thread = threading.Thread(target = receive_emial_by_outlook())
+    #recv_thread.start()
+    
     return
 
 
